@@ -1,10 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { COLORS, WEIGHTS } from '../../constants';
+import { BREAKPOINTS, COLORS, WEIGHTS } from '../../constants';
+import Icon from '../Icon';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
+import { set } from 'date-fns/fp';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -28,6 +30,9 @@ const Header = () => {
           <NavLink href="/women">Women</NavLink>
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
+          <NavLinkMobile href="#"><Icon id='shopping-bag' strokeWidth={2}/></NavLinkMobile>
+          <NavLinkMobile href="#"><Icon id='search' strokeWidth={2}/></NavLinkMobile>
+          <NavBTNMobile onClick={ () => setShowMobileMenu(true) }><Icon id='menu' strokeWidth={2}/></NavBTNMobile>
         </Nav>
         <Side />
       </MainHeader>
@@ -50,12 +55,23 @@ const MainHeader = styled.div`
 
 const Nav = styled.nav`
   display: flex;
-  gap: 48px;
+  gap: clamp(24px, 4vw,48px);
   margin: 0px 48px;
+  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+    margin: 0;
+  }
 `;
 
 const Side = styled.div`
   flex: 1;
+  
+  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+
+    &:nth-of-type(2) {
+      display: none;
+    }
+
+  }
 `;
 
 const NavLink = styled.a`
@@ -64,10 +80,36 @@ const NavLink = styled.a`
   text-decoration: none;
   color: ${COLORS.gray[900]};
   font-weight: ${WEIGHTS.medium};
-
+  
   &:first-of-type {
     color: ${COLORS.secondary};
   }
+  
+  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+    display: none;
+  }
+  `;
+
+const NavLinkMobile = styled.a`
+  display: none;
+  
+  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+    display: flex;
+    color: black;
+
+  }
+
+`;
+
+const NavBTNMobile = styled.a`
+  display: none;
+  
+  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+    display: flex;
+    color: black;
+
+  }
+
 `;
 
 export default Header;
