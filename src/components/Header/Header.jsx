@@ -1,12 +1,13 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BREAKPOINTS, COLORS, WEIGHTS } from '../../constants';
+import { BREAKPOINTS, COLORS, QUERIES, WEIGHTS } from '../../constants';
 import Icon from '../Icon';
 import Logo from '../Logo';
 import SuperHeader from '../SuperHeader';
 import MobileMenu from '../MobileMenu';
-import { set } from 'date-fns/fp';
+import UnstyledButton from '../UnstyledButton';
+import VisuallyHidden from '../VisuallyHidden';
 
 const Header = () => {
   const [showMobileMenu, setShowMobileMenu] = React.useState(false);
@@ -20,21 +21,32 @@ const Header = () => {
     <header>
       <SuperHeader />
       <MainHeader>
-        <Side>
+        <LogoWrapper>
           <Logo />
-        </Side>
-        <Nav>
+        </LogoWrapper>
+        <DesktopNav>
           <NavLink href="/sale">Sale</NavLink>
           <NavLink href="/new">New&nbsp;Releases</NavLink>
           <NavLink href="/men">Men</NavLink>
           <NavLink href="/women">Women</NavLink>
           <NavLink href="/kids">Kids</NavLink>
           <NavLink href="/collections">Collections</NavLink>
-          <NavLinkMobile href="#"><Icon id='shopping-bag' strokeWidth={2}/></NavLinkMobile>
-          <NavLinkMobile href="#"><Icon id='search' strokeWidth={2}/></NavLinkMobile>
-          <NavBTNMobile onClick={ () => setShowMobileMenu(true) }><Icon id='menu' strokeWidth={2}/></NavBTNMobile>
-        </Nav>
-        <Side />
+        </DesktopNav>
+          <MobileNav>
+            <UnstyledButton>
+              <Icon id='shopping-bag' strokeWidth={2}/>
+              <VisuallyHidden>Shopping Bag</VisuallyHidden>
+            </UnstyledButton>
+            <UnstyledButton>
+              <Icon id='search' strokeWidth={2}/>
+              <VisuallyHidden>Search</VisuallyHidden>
+            </UnstyledButton>
+            <UnstyledButton onClick={ () => setShowMobileMenu(true) }>
+              <Icon id='menu' strokeWidth={2}/>
+              <VisuallyHidden>Menu</VisuallyHidden>
+            </UnstyledButton>
+          </MobileNav>  
+        <Filler/>
       </MainHeader>
 
       <MobileMenu
@@ -49,28 +61,42 @@ const MainHeader = styled.div`
   display: flex;
   align-items: baseline;
   padding: 18px 32px;
-  height: 72px;
   border-bottom: 1px solid ${COLORS.gray[300]};
-`;
 
-const Nav = styled.nav`
-  display: flex;
-  gap: clamp(24px, 4vw,48px);
-  margin: 0px 48px;
-  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
-    margin: 0;
+  @media ${QUERIES.tabletAndSmaller} {
+    border-top: 4px solid ${COLORS.gray[900]};
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  @media ${QUERIES.phoneAndSmaller} {
+    padding-inline: 16px;
   }
 `;
 
-const Side = styled.div`
-  flex: 1;
+const DesktopNav = styled.nav`
+  display: flex;
+  gap: clamp(1rem, 9.2vw - 4.5rem, 3.5rem);
+  margin: 0px 48px;
   
-  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+  @media ${QUERIES.tabletAndSmaller} {
+    display: none;
+  }
+`;
 
-    &:nth-of-type(2) {
-      display: none;
-    }
+const LogoWrapper = styled.div`
+  flex: 1;
 
+  @media ${QUERIES.tabletAndSmaller} {
+    flex: revert;
+  }
+`;
+
+const Filler = styled.div`
+  flex: 1;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    display: none;
   }
 `;
 
@@ -84,32 +110,26 @@ const NavLink = styled.a`
   &:first-of-type {
     color: ${COLORS.secondary};
   }
-  
-  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
-    display: none;
-  }
   `;
 
-const NavLinkMobile = styled.a`
+const MobileNav = styled.div`
   display: none;
-  
-  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+
+  @media ${QUERIES.tabletAndSmaller} {
     display: flex;
-    color: black;
-
+    gap: clamp(17px, 4vw, 34px);
   }
-
 `;
 
-const NavBTNMobile = styled.a`
-  display: none;
-  
-  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
-    display: flex;
-    color: black;
+// const NavLinkMobile = styled.a`
+//   display: flex;
+//   color: black;
+//   margin-left: auto;
+// `;
 
-  }
-
-`;
+// const NavBTNMobile = styled.a`
+//   display: flex;
+//   color: black;
+// `;
 
 export default Header;

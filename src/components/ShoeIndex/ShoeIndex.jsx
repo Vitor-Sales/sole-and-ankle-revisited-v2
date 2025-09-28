@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { WEIGHTS, BREAKPOINTS } from '../../constants';
+import { WEIGHTS, BREAKPOINTS, QUERIES } from '../../constants';
 
 import Breadcrumbs from '../Breadcrumbs';
 import Select from '../Select';
@@ -24,7 +24,7 @@ const ShoeIndex = ({ sortId, setSortId }) => {
             <option value="price">Price</option>
           </Select>
         </Header>
-        <Spacer size={32} />
+        <Spacer size={32} mobileSize={10}/>
         <ShoeGrid />
       </MainColumn>
       <LeftColumn>
@@ -35,7 +35,7 @@ const ShoeIndex = ({ sortId, setSortId }) => {
             Shoes
           </Breadcrumbs.Crumb>
         </Breadcrumbs>
-        <Spacer size={42} />
+        <Spacer size={42}  mobileSize={16}/>
         <ShoeSidebar />
       </LeftColumn>
     </Wrapper>
@@ -44,13 +44,23 @@ const ShoeIndex = ({ sortId, setSortId }) => {
 
 const Wrapper = styled.div`
   display: flex;
-  flex-direction: row-reverse;
   align-items: baseline;
+  flex-direction: row-reverse;
   gap: 32px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
 `;
 
 const LeftColumn = styled.div`
   flex-basis: 248px;
+
+  @media ${QUERIES.tabletAndSmaller} {
+    flex-basis: revert;
+    height: 10px;
+  }
 `;
 
 const MainColumn = styled.div`

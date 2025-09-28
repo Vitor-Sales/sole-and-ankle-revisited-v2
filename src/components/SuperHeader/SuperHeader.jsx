@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 
-import { BREAKPOINTS, COLORS } from '../../constants';
+import { COLORS, QUERIES } from '../../constants';
 
 import SearchInput from '../SearchInput';
 import UnstyledButton from '../UnstyledButton';
@@ -33,7 +33,7 @@ const Wrapper = styled.div`
   padding-left: 32px;
   padding-right: 32px;
 
-  @media screen and (max-width: ${BREAKPOINTS.tablet}) {
+  @media ${QUERIES.tabletAndSmaller} {
     display: none;
   }
 `;
